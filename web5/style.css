@@ -1,0 +1,24 @@
+.image-container {
+    position: fixed;
+    width: 200px; /* 根据需要调整大小 */
+    height: 200px; /* 根据需要调整大小 */
+    opacity: 1;
+    transition: transform 2s, opacity 2s; /* 动画过渡效果，持续时间为2秒 */
+  }
+
+  #image1 { top: 0; left: 0; }
+  #image2 { top: 0; right: 0; }
+  #image3 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  #image4 { bottom: 0; left: 0; }
+  #image5 { bottom: 0; right: 0; }
+
+  .hidden {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+
+  body {
+    background: #6c373f;
+    display: flex;
+    justify-content: center;
+    }
