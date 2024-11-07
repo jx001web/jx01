@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treasure Hunt</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img id="treasure-map" src="library.png" alt="Ancient Library">
+    <img id="clue-image" src="1.png" alt="Clue" onclick="onClueImageClick()">
+    <div id="clue-text"></div>
+    <button id="continue-button" style="display: none; position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); z-index: 3;">解码</button>
+    <img id="temple-map" src="temple.png" alt="Ancient Temple" style="display: none; width: 100%; height: auto;">
+    <img id="treasure-chest" src="box.png" alt="Treasure Chest" onclick="onTreasureChestClick()" style="display: none;">
+    <div id="treasure-revealed"></div>
+    <button id="treasure-revealed-button" style="display: none;">找到宝藏</button>
+    <img id="treasure-found" src="treasure.png" alt="Treasure Found" style="display: none;">
+    <img id="temple-guard" src="temple.png" alt="Temple Guard" style="display: none;">
+<script src="1.js"></script>
+</body>
+</html>
+ 
