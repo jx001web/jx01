@@ -1,0 +1,95 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 防止出现滚动条 */
+}
+#treasure-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+#clue-image {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px; /* 设置线索图片的初始大小 */
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  z-index: 2; /* 确保线索图片在图书馆图片之上 */
+}
+#clue-image.enlarged {
+  transform: translate(-50%, -50%) scale(10); /* 放大线索图片并移动到屏幕中央 */
+  top: 50%;
+  left: 50%;
+}
+#clue-text {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  z-index: 3; /* 确保文字在图片之上 */
+}
+#treasure-chest {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px; /* 设置宝箱图片的初始大小 */
+  cursor: pointer;
+  display: none; /* 默认不显示 */
+  z-index: 2; /* 确保宝箱图片在神庙图片之上 */
+}
+#treasure-chest-button {
+  display: none; /* 默认不显示 */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3; /* 确保按钮在图片之上 */
+}
+#treasure-chest.enlarged {
+  transform: translate(-50%, -50%) scale(10); /* 放大宝箱图片并移动到屏幕中央 */
+  top: 50%;
+  left: 50%;
+}
+#treasure-revealed {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  z-index: 3;
+}
+#treasure-revealed-button {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+#treasure-found {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+#temple-guard {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+/* ... 省略了其他的样式代码 ... */

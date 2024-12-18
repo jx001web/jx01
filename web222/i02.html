@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treasure Hunt</title>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 防止出现滚动条 */
+}
+#treasure-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+#clue-image {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px; /* 设置线索图片的初始大小 */
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  z-index: 2; /* 确保线索图片在图书馆图片之上 */
+}
+#clue-image.enlarged {
+  transform: translate(-50%, -50%) scale(10); /* 放大线索图片并移动到屏幕中央 */
+  top: 50%;
+  left: 50%;
+}
+#clue-text {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  z-index: 3; /* 确保文字在图片之上 */
+}
+#treasure-chest {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px; /* 设置宝箱图片的初始大小 */
+  cursor: pointer;
+  display: none; /* 默认不显示 */
+  z-index: 2; /* 确保宝箱图片在神庙图片之上 */
+}
+#treasure-chest-button {
+  display: none; /* 默认不显示 */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3; /* 确保按钮在图片之上 */
+}
+#treasure-chest.enlarged {
+  transform: translate(-50%, -50%) scale(10); /* 放大宝箱图片并移动到屏幕中央 */
+  top: 50%;
+  left: 50%;
+}
+#treasure-revealed {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  z-index: 3;
+}
+#treasure-revealed-button {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+#treasure-found {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+#temple-guard {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+</style>
+</head>
+<body>
+    <img id="treasure-map" src="library.png" alt="Ancient Library">
+    <img id="clue-image" src="1.png" alt="Clue" onclick="onClueImageClick()">
+    <div id="clue-text"></div>
+    <button id="continue-button" style="display: none; position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); z-index: 3;">解码</button>
+    <img id="temple-map" src="temple.png" alt="Ancient Temple" style="display: none; width: 100%; height: auto;">
+    <img id="treasure-chest" src="box.png" alt="Treasure Chest" onclick="onTreasureChestClick()">
+    <div id="treasure-revealed"></div>
+    <button id="treasure-revealed-button" style="display: none;">找到宝藏</button>
+    <img id="treasure-found" src="treasure.png" alt="Treasure Found" style="display: none;">
+    <img id="temple-guard" src="2.png" alt="Temple Guard" style="display: none;">
+    
+  
+    <audio autoplay loop id="background-music">
+      <source src="background-music.mp3" type="audio/mpeg">
+      <source src="background-music.ogg" type="audio/ogg">
+      Your browser does not support the audio element.
+  </audio>
+    <script>
+
+      document.getElementById('play-music').addEventListener('click', function() {
+       var music = document.getElementById('background-music');
+       music.play();
+        });
+      class TreasureMap {
+        static getInitialClue() {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve("在古老的图书馆里找到了第一个线索...");
+              }, 1000);
+            });
+          }
+        
+          static decodeAncientScript(clue) {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                if (!clue) {
+                  reject("没有线索可以解码!");
+                }
+                resolve("解码成功!宝藏在一座古老的神庙中...");
+              }, 1500);
+            });
+          }
+        
+          static searchTemple(location) {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const random = Math.random();
+                if (random < 0.5) {
+                  reject("糟糕!遇到了神庙守卫!");
+                }
+                resolve("找到了一个神秘的箱子...");
+              }, 2000);
+            });
+          }
+        
+          static openTreasureBox() {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve("恭喜!你找到了传说中的宝藏!");
+              }, 1000);
+            });
+          }
+    }
+    
+    // 使用async/await重写findTreasure函数
+    async function findTreasureWithAsync() {
+       try {
+        const initialClue = await TreasureMap.getInitialClue();
+        document.getElementById('clue-text').textContent = initialClue;
+        document.getElementById('clue-text').style.display = 'block';
+        document.getElementById('continue-button').style.display = 'block';
+      } catch (error) {
+        console.error("任务失败:", error);
+      }
+    }
+    
+    // 处理图片点击事件
+    function onClueImageClick() {
+      const clueImage = document.getElementById('clue-image');
+      clueImage.classList.add('enlarged');
+      document.getElementById('clue-text').textContent = "在古老的图书馆里找到了第一个线索";
+      document.getElementById('clue-text').style.display = 'block';
+      document.getElementById('continue-button').style.display = 'block';
+    }
+    
+    // 处理按钮点击事件
+    function onContinueButtonClick() {
+      document.getElementById('clue-text').style.display = 'none';
+      document.getElementById('continue-button').style.display = 'none';
+      document.getElementById('clue-image').classList.remove('enlarged');
+      document.getElementById('treasure-map').style.display = 'none';
+      document.getElementById('temple-map').style.display = 'block';
+      document.getElementById('treasure-chest').style.display = 'block';
+      
+      // 解码线索并显示在页面上
+      TreasureMap.decodeAncientScript("在古老的图书馆里找到了第一个线索...")
+        .then(location => {
+          document.getElementById('clue-text').textContent = location;
+          document.getElementById('clue-text').style.display = 'block';
+        })
+        .catch(error => {
+          console.error("任务失败:", error);
+        });
+    }
+    function onTreasureChestClick() {
+        const treasureChest = document.getElementById('treasure-chest');
+        const random = Math.random();
+        if (random < 0.7) {
+            // 70% 的概率放大宝箱到屏幕中央
+            treasureChest.classList.add('enlarged');
+            document.getElementById('treasure-revealed').textContent = "找到了一个神秘的箱子";
+            document.getElementById('treasure-revealed').style.display = 'block';
+            document.getElementById('treasure-revealed-button').style.display = 'block';
+        } else {
+            // 30% 的概率遇到神庙守卫
+            document.getElementById('temple-guard').style.display = 'block'; // 显示神庙守卫图片
+            document.getElementById('treasure-revealed').textContent = "糟糕，遇到了神庙守卫";
+            document.getElementById('treasure-revealed').style.display = 'block';
+            document.getElementById('treasure-chest').style.display = 'none'; // 隐藏宝箱图片
+        }
+    }
+    
+    // 处理宝藏揭示按钮点击事件
+    function onTreasureRevealedButtonClick() {
+        document.getElementById('treasure-chest').classList.remove('enlarged');
+      document.getElementById('clue-text').style.display = 'none';
+      document.getElementById('treasure-revealed-button').style.display = 'none';
+      document.getElementById('temple-map').style.display = 'none';
+      document.getElementById('treasure-found').style.display = 'block'; // 显示宝藏图片
+      // 显示找到宝藏的文本
+  document.getElementById('treasure-revealed').textContent = "恭喜你成功找到宝藏！";
+  document.getElementById('treasure-revealed').style.display = 'block';
+}
+
+// 页面加载完成后绑定按钮点击事件
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('continue-button').addEventListener('click', onContinueButtonClick);
+    document.getElementById('treasure-revealed-button').addEventListener('click', onTreasureRevealedButtonClick);
+    document.getElementById('treasure-chest').addEventListener('click', onTreasureChestClick); // 绑定宝箱点击事件
+    document.getElementById('treasure-revealed-button').addEventListener('click', onTreasureRevealedButtonClick);
+    document.getElementById('treasure-chest').addEventListener('click', onTreasureChestClick); // 绑定宝箱点击事件
+});
+
+ // 使用fetch API从clue.txt文件中加载线索数据
+ function loadClue() {
+        fetch('clue.txt')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('clue-text').textContent = data;
+            document.getElementById('clue-text').style.display = 'block';
+          })
+          .catch(error => {
+            console.error('Error loading the clue:', error);
+          });
+      }
+
+ // 在页面加载完成后加载线索
+ document.addEventListener('DOMContentLoaded', loadClue);
+
+
+
+
+
+</script>
+</body>
+</html>
+
+    
